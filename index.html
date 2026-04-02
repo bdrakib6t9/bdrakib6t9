@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,116 +12,77 @@ body {background:#020617;overflow-x:hidden}
 .glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(12px)}
 </style>
 </head>
-<body>
-
-<div id="particles-js"></div>
-
-<div class="text-center p-6 text-white">
-<!-- ✅ FIXED IMAGE LINK -->
-<img src="https://drive.google.com/uc?export=view&id=1q-xoZa-9BEeeau0gU3tkfDd3yJrmhT4E" onerror="this.src='https://i.imgur.com/SiWyTtt.jpeg'" class="w-32 h-32 mx-auto rounded-full border-4 border-blue-500 shadow-2xl">
+<body><div id="particles-js"></div><div class="text-center p-6 text-white">
+<img src="https://drive.google.com/uc?export=view&id=1q-xoZa-9BEeeau0gU3tkfDd3yJrmhT4E" onerror="this.src='https://i.imgur.com/1X6n8.jpg'" class="w-32 h-32 mx-auto rounded-full border-4 border-blue-500 shadow-2xl">
 <h1 class="text-4xl font-bold mt-4">Rakib Hasan</h1>
 <p class="text-gray-400">🚀 Ultra API Dashboard</p>
 </div>
-
-<div class="flex justify-center gap-6 text-2xl mb-6 text-white">
+</div><div class="flex justify-center gap-6 text-2xl mb-6 text-white">
 <a href="https://www.facebook.com/hoon420" target="_blank"><i class="fab fa-facebook"></i></a>
 <a href="https://github.com/hoon6t9" target="_blank"><i class="fab fa-github"></i></a>
 <a href="https://wa.me/8801319888778" target="_blank"><i class="fab fa-whatsapp"></i></a>
 <a href="https://pinterest.com/hoon6t9" target="_blank"><i class="fab fa-pinterest"></i></a>
-</div>
-
-<div class="max-w-6xl mx-auto p-4 grid md:grid-cols-2 gap-6 text-white">
-
-<div class="glass p-5 rounded-xl">
+</div><div class="max-w-6xl mx-auto p-4 grid md:grid-cols-2 gap-6 text-white"><div class="glass p-5 rounded-xl">
 <h3>Chat API</h3>
 <input id="chat" class="w-full p-2 bg-black mt-2 rounded" placeholder="text">
 <button onclick="run('chat')" class="mt-2 bg-blue-600 px-4 py-2 rounded">Run</button>
-<button onclick="copyURL('chat')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+<button onclick="copy('chat')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
 <pre id="chatRes"></pre>
-</div>
-
-<div class="glass p-5 rounded-xl">
+</div><div class="glass p-5 rounded-xl">
 <h3>AI API</h3>
-<input id="ai" class="w-full p-2 bg-black mt-2 rounded" placeholder="ask">
+<input id="ai" class="w-full p-2 bg-black mt-2 rounded">
 <button onclick="run('ai')" class="mt-2 bg-purple-600 px-4 py-2 rounded">Run</button>
-<button onclick="copyURL('ai')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+<button onclick="copy('ai')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
 <pre id="aiRes"></pre>
-</div>
-
-<div class="glass p-5 rounded-xl">
+</div><div class="glass p-5 rounded-xl">
 <h3>Quiz</h3>
 <button onclick="run('quiz')" class="mt-2 bg-pink-600 px-4 py-2 rounded">Run</button>
 <pre id="quizRes"></pre>
-</div>
-
-<div class="glass p-5 rounded-xl">
+</div><div class="glass p-5 rounded-xl">
 <h3>TikTok</h3>
-<input id="tt" class="w-full p-2 bg-black mt-2 rounded" placeholder="url">
+<input id="tt" class="w-full p-2 bg-black mt-2 rounded">
 <button onclick="run('tt')" class="mt-2 bg-green-600 px-4 py-2 rounded">Run</button>
 <pre id="ttRes"></pre>
-</div>
-
-</div>
-
-<!-- chatbot -->
-<div class="fixed bottom-5 right-5">
+</div></div><!-- chatbot --><div class="fixed bottom-5 right-5">
 <button onclick="toggleChat()" class="bg-blue-600 px-4 py-2 rounded-full">AI</button>
 <div id="chatbox" class="hidden glass p-4 mt-2 w-72">
 <input id="botInput" class="w-full p-2 bg-black rounded">
 <button onclick="bot()" class="mt-2 bg-blue-500 px-3 py-1 rounded">Send</button>
 <pre id="botRes"></pre>
 </div>
-</div>
-
-<script>
+</div><script>
 function apiURL(type){
-const encode = encodeURIComponent;
-
-if(type==='chat') return `https://rakib-api.vercel.app/api/simma-chat?text=${encode(document.getElementById('chat').value)}&apikey=rakib69`;
-
-if(type==='ai') return `https://rakib-api.vercel.app/api/simma-ai?text=${encode(document.getElementById('ai').value)}&apikey=rakib69`;
-
-if(type==='quiz') return `https://rakib-api.vercel.app/api/quiz?category=English&apikey=rakib69`;
-
-if(type==='tt') return `https://rakib-tik-api-production.up.railway.app/api/tiktok?url=${encode(document.getElementById('tt').value)}&apikey=rakib69`;
+if(type=='chat') return `https://rakib-api.vercel.app/api/simma-chat?text=${chat.value}&apikey=rakib69`;
+if(type=='ai') return `https://rakib-api.vercel.app/api/simma-ai?text=${ai.value}&apikey=rakib69`;
+if(type=='quiz') return `https://rakib-api.vercel.app/api/quiz?category=English&apikey=rakib69`;
+if(type=='tt') return `https://rakib-tik-api-production.up.railway.app/api/tiktok?url=${tt.value}&apikey=rakib69`;
 }
 
-function run(type){
-  try{
-    const url = apiURL(type);
-    // 🔥 FULL LINK direct open (CORS fix)
-    window.open(url, '_blank');
-
-    // optional: show link in UI
-    document.getElementById(type+'Res').innerText = url;
-  }catch(err){
-    document.getElementById(type+'Res').innerText = 'Error: '+err;
-  }
-}catch(err){
-document.getElementById(type+'Res').innerText = 'Error: '+err;
-}
+async function run(type){
+const url=apiURL(type);
+const res=await fetch(url);
+const data=await res.json();
+document.getElementById(type+'Res').innerText=JSON.stringify(data,null,2);
 }
 
-function copyURL(type){
+function copy(type){
 navigator.clipboard.writeText(apiURL(type));
 alert('Copied!');
 }
 
 function toggleChat(){
-document.getElementById('chatbox').classList.toggle('hidden');
+chatbox.classList.toggle('hidden');
 }
 
 async function bot(){
-const text = document.getElementById('botInput').value;
-const res = await fetch(`https://rakib-api.vercel.app/api/simma-ai?text=${encodeURIComponent(text)}&apikey=rakib69`);
-const data = await res.json();
-document.getElementById('botRes').innerText = JSON.stringify(data,null,2);
+const text=botInput.value;
+const res=await fetch(`https://rakib-api.vercel.app/api/simma-ai?text=${text}&apikey=rakib69`);
+const data=await res.json();
+botRes.innerText=JSON.stringify(data,null,2);
 }
 
 particlesJS('particles-js', {
 particles:{number:{value:80},size:{value:3},move:{speed:2}}
 });
-</script>
-
-</body>
+</script></body>
   </html>
