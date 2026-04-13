@@ -52,12 +52,20 @@ body {background:#020617;overflow-x:hidden}
 </div>
 </div><script>
 function apiURL(type){
-if(type=='chat') return `https://rakib-api.vercel.app/api/simma-chat?text=${chat.value}&apikey=rakib69`;
-if(type=='ai') return `https://rakib-api.vercel.app/api/simma-ai?text=${ai.value}&apikey=rakib69`;
-if(type=='quiz') return `https://rakib-api.vercel.app/api/quiz?category=English&apikey=rakib69`;
-if(type=='tt') return `https://rakib-tik-api-production.up.railway.app/api/tiktok?url=${tt.value}&apikey=rakib69`;
-}
 
+if(type=='chat') 
+return `https://rakib-bby-ui.vercel.app/api/chat?text=${encodeURIComponent(chat.value)}&apikey=rakib69`;
+
+if(type=='ai') 
+return `https://rakib-bby-ui.vercel.app/api/ai?text=${encodeURIComponent(ai.value)}`;
+
+if(type=='list') 
+return `https://rakib-bby-ui.vercel.app/api/list`;
+
+if(type=='teach') 
+return `https://rakib-bby-ui.vercel.app/api/teach?key=${encodeURIComponent(chat.value)}&reply=${encodeURIComponent(ai.value)}`;
+
+  }
 async function run(type){
 const url=apiURL(type);
 const res=await fetch(url);
