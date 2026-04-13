@@ -61,7 +61,7 @@ const ta = document.getElementById('teachA')?.value;
 if(type==='chat') return `https://rakib-api.vercel.app/api/simma-chat?text=${encodeURIComponent(chat)}&apikey=rakib69`;
 if(type==='ai') return `https://rakib-api.vercel.app/api/simma-ai?text=${encodeURIComponent(ai)}&apikey=rakib69`;
 if(type==='teach') return `https://rakib-api.vercel.app/api/simma-teach?teach=${encodeURIComponent(tq)}&reply=${encodeURIComponent(ta)}&apikey=rakib69`;
-if(type==='prayer') return `https://rakib-api.vercel.app/api/prayer`;
+if(type==='prayer') return `https://rakib-prayer-time.onrender.com/api/ramadan?location=dhaka&apikey=rakib69`;
 }
 
 async function run(type){
