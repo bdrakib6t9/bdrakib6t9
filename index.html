@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en">
+<!-- ===== index.html (FIXED) ===== --><!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +12,11 @@ body {background:#020617;overflow-x:hidden}
 .glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(12px)}
 </style>
 </head>
-<body><div id="particles-js"></div><div class="text-center p-6 text-white">
-<img src="https://drive.google.com/uc?export=view&id=1q-xoZa-9BEeeau0gU3tkfDd3yJrmhT4E" onerror="this.src='https://i.imgur.com/SiWyTtt.jpeg'" class="w-32 h-32 mx-auto rounded-full border-4 border-blue-500 shadow-2xl">
+<body>
+<div id="particles-js"></div><div class="text-center p-6 text-white">
+<img src="https://i.imgur.com/SiWyTtt.jpeg" class="w-32 h-32 mx-auto rounded-full border-4 border-blue-500 shadow-2xl">
 <h1 class="text-4xl font-bold mt-4">Rakib Hasan</h1>
 <p class="text-gray-400">❀assalamu alaikum❀</p>
-</div>
 </div><div class="flex justify-center gap-6 text-2xl mb-6 text-white">
 <a href="https://www.facebook.com/hoon420" target="_blank"><i class="fab fa-facebook"></i></a>
 <a href="https://github.com/hoon6t9" target="_blank"><i class="fab fa-github"></i></a>
@@ -26,71 +26,67 @@ body {background:#020617;overflow-x:hidden}
 <h3>Chat API</h3>
 <input id="chat" class="w-full p-2 bg-black mt-2 rounded" placeholder="text">
 <button onclick="run('chat')" class="mt-2 bg-blue-600 px-4 py-2 rounded">Run</button>
-<button onclick="copy('chat')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+<button onclick="copyURL('chat')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
 <pre id="chatRes"></pre>
 </div><div class="glass p-5 rounded-xl">
 <h3>AI API</h3>
 <input id="ai" class="w-full p-2 bg-black mt-2 rounded">
 <button onclick="run('ai')" class="mt-2 bg-purple-600 px-4 py-2 rounded">Run</button>
-<button onclick="copy('ai')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+<button onclick="copyURL('ai')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
 <pre id="aiRes"></pre>
-</div><div class="glass p-5 rounded-xl">
-<h3>Quiz</h3>
-<button onclick="run('quiz')" class="mt-2 bg-pink-600 px-4 py-2 rounded">Run</button>
-<pre id="quizRes"></pre>
-</div><div class="glass p-5 rounded-xl">
-<h3>TikTok</h3>
-<input id="tt" class="w-full p-2 bg-black mt-2 rounded">
-<button onclick="run('tt')" class="mt-2 bg-green-600 px-4 py-2 rounded">Run</button>
-<pre id="ttRes"></pre>
-</div></div><!-- chatbot --><div class="fixed bottom-5 right-5">
-<button onclick="toggleChat()" class="bg-blue-600 px-4 py-2 rounded-full">AI</button>
-<div id="chatbox" class="hidden glass p-4 mt-2 w-72">
-<input id="botInput" class="w-full p-2 bg-black rounded">
-<button onclick="bot()" class="mt-2 bg-blue-500 px-3 py-1 rounded">Send</button>
-<pre id="botRes"></pre>
-</div>
-</div><script>
+</div></div><script>
 function apiURL(type){
 
-if(type=='chat') 
-return `https://rakib-bby-ui.vercel.app/api/chat?text=${encodeURIComponent(chat.value)}&apikey=rakib69`;
+const chatInput = document.getElementById('chat').value;
+const aiInput = document.getElementById('ai').value;
 
-if(type=='ai') 
-return `https://rakib-bby-ui.vercel.app/api/ai?text=${encodeURIComponent(ai.value)}`;
+if(type==='chat'){
+return `https://rakib-api.vercel.app/api/simma-chat?text=${encodeURIComponent(chatInput)}&apikey=rakib69`;
+}
 
-if(type=='list') 
-return `https://rakib-bby-ui.vercel.app/api/list`;
+if(type==='ai'){
+return `https://rakib-api.vercel.app/api/simma-ai?text=${encodeURIComponent(aiInput)}&apikey=rakib69`;
+}
 
-if(type=='teach') 
-return `https://rakib-bby-ui.vercel.app/api/teach?key=${encodeURIComponent(chat.value)}&reply=${encodeURIComponent(ai.value)}`;
+}
 
-  }
 async function run(type){
-const url=apiURL(type);
-const res=await fetch(url);
-const data=await res.json();
-document.getElementById(type+'Res').innerText=JSON.stringify(data,null,2);
+try{
+const url = apiURL(type);
+const res = await fetch(url);
+const data = await res.json();
+document.getElementById(type+'Res').innerText = JSON.stringify(data,null,2);
+}catch(err){
+document.getElementById(type+'Res').innerText = 'Error: '+err;
+}
 }
 
-function copy(type){
-navigator.clipboard.writeText(apiURL(type));
-alert('Copied!');
-}
-
-function toggleChat(){
-chatbox.classList.toggle('hidden');
-}
-
-async function bot(){
-const text=botInput.value;
-const res=await fetch(`https://rakib-api.vercel.app/api/simma-ai?text=${text}&apikey=rakib69`);
-const data=await res.json();
-botRes.innerText=JSON.stringify(data,null,2);
+function copyURL(type){
+const url = apiURL(type);
+navigator.clipboard.writeText(url);
+alert('API URL Copied!');
 }
 
 particlesJS('particles-js', {
 particles:{number:{value:80},size:{value:3},move:{speed:2}}
 });
 </script></body>
-  </html>
+</html><!-- ===== api/index.html (NEW PAGE) ===== --><!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API List</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white p-6"><h1 class="text-3xl mb-6">All APIs</h1><div class="space-y-3"><div>Chat → https://rakib-api.vercel.app/api/simma-chat?text=hi&apikey=rakib69</div>
+<div>AI → https://rakib-api.vercel.app/api/simma-ai?text=hi&apikey=rakib69</div>
+<div>Teach → https://rakib-api.vercel.app/api/simma-teach?teach=hi&reply=hlw&apikey=rakib69</div>
+<div>Listen → https://rakib-api.vercel.app/api/simma-listen?question=asbi&reply=na&isReply=true&apikey=rakib69</div>
+<div>Bulk Teach → https://rakib-api.vercel.app/api/simma-bulk-teach</div>
+<div>List → https://rakib-api.vercel.app/api/simma-list?apikey=bdrakib6t9</div>
+<div>List Page → https://rakib-api.vercel.app/api/simma-list?apikey=bdrakib6t9&page=2</div>
+<div>Find → https://rakib-api.vercel.app/api/simma-list?apikey=bdrakib6t9&find=hi</div>
+<div>Quiz Bangla → https://rakib-api.vercel.app/api/quiz?category=Bangla&apikey=rakib69</div>
+<div>Quiz English → https://rakib-api.vercel.app/api/quiz?category=English&apikey=rakib69</div>
+<div>TikTok → https://rakib-tik-api-production.up.railway.app/api/tiktok?url=https://vt.tiktok.com/ZSmNP6pR3/&apikey=rakib69</div></div></body>
+</html>
