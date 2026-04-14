@@ -67,14 +67,27 @@ if(type==='prayer') return `https://rakib-prayer-time.onrender.com/api/ramadan?l
 async function run(type){
 try{
 const url = apiURL(type);
-const res = await fetch(url);
-const data = await res.json();
-document.getElementById(type+'Res').innerText = JSON.stringify(data,null,2);
-}catch(e){
-document.getElementById(type+'Res').innerText = 'Error loading API';
-}
+
+const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
+const res = await fetch(proxy);
+
+let data;
+try{
+data = await res.json();
+}catch{
+data = await res.text();
 }
 
+const output = typeof data === 'object' ? JSON.stringify(data,null,2) : data;
+
+document.getElementById(type+'Res').innerText = output;
+
+}catch(e){
+document.getElementById(type+'Res').innerText = 'API Error (CORS fixed)';
+}
+}
+  
 function copyURL(type){
 const url = apiURL(type);
 navigator.clipboard.writeText(url);
