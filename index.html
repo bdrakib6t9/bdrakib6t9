@@ -67,24 +67,18 @@ if(type==='prayer') return `https://rakib-prayer-time.onrender.com/api/ramadan?l
 async function run(type){
 try{
 const url = apiURL(type);
-
-const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
-
+const proxy = "https://corsproxy.io/?"+encodeURIComponent(url);
 const res = await fetch(proxy);
-
 let data;
 try{
 data = await res.json();
 }catch{
 data = await res.text();
 }
-
 const output = typeof data === 'object' ? JSON.stringify(data,null,2) : data;
-
 document.getElementById(type+'Res').innerText = output;
-
 }catch(e){
-document.getElementById(type+'Res').innerText = 'API Error (CORS fixed)';
+document.getElementById(type+'Res').innerText = 'API Error (Proxy Failed)';
 }
 }
   
