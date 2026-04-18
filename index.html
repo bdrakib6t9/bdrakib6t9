@@ -116,22 +116,28 @@ if(type==='teach') return `https://rakib-api.vercel.app/api/simma-teach?teach=${
 if(type==='prayer') return `https://rakib-prayer-time.onrender.com/api/ramadan?location=dhaka&apikey=rakib69`;
 }
 
-async function run(type){
-try{
-const url = apiURL(type);
-const proxy = "https://corsproxy.io/?"+encodeURIComponent(url);
-const res = await fetch(proxy);
-let data;
-try{
-data = await res.json();
-}catch{
-data = await res.text();
-}
-const output = typeof data === 'object' ? JSON.stringify(data,null,2) : data;
-document.getElementById(type+'Res').innerText = output;
-}catch(e){
-document.getElementById(type+'Res').innerText = 'API Error (Proxy Failed)';
-}
+async function run(){
+  const url = document.getElementById("urlInput").value;
+
+  try{
+    const proxy = "/api/proxy?url=" + encodeURIComponent(url);
+    const res = await fetch(proxy);
+
+    let data;
+    try{
+      data = await res.json();
+    }catch{
+      data = await res.text();
+    }
+
+    document.getElementById("result").innerText =
+      typeof data === "object"
+      ? JSON.stringify(data,null,2)
+      : data;
+
+  }catch(e){
+    document.getElementById("result").innerText = "Error";
+  }
 }
   
 function copyURL(type){
