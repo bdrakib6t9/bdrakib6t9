@@ -73,62 +73,86 @@ typeEffect();
      class="bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent hover:scale-125 transition duration-300">
     <i class="fab fa-instagram"></i>
   </a>
-</div>
-<div class="max-w-6xl mx-auto p-4 grid md:grid-cols-2 gap-6 text-white">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Particles -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+
+<style>
+body{
+  background: linear-gradient(to bottom right,#020617,#0f172a,#020617);
+}
+
+/* Glass effect */
+.glass{
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255,255,255,0.1);
+}
+</style>
+</head>
+
+<body class="text-white">
+
+<!-- 🌌 Particles Background -->
+<div id="particles-js" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+<!-- 🔥 UI -->
+<div class="max-w-6xl mx-auto p-4 grid md:grid-cols-2 gap-6">
 
   <!-- Chat -->
   <div class="glass p-5 rounded-xl">
-    <h3>Chat API</h3>
+    <h3 class="text-xl font-bold">Chat API</h3>
     <input id="chat" class="w-full p-2 bg-black mt-2 rounded" placeholder="text">
-    <button onclick="run('chat')" class="mt-2 bg-blue-600 px-4 py-2 rounded">Run</button>
+    <button onclick="run('chat')" class="mt-2 bg-blue-600 px-4 py-2 rounded hover:scale-110 transition">Run</button>
     <button onclick="copyURL('chat')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
     <pre id="chatRes" class="mt-2 text-sm"></pre>
   </div>
 
   <!-- AI -->
   <div class="glass p-5 rounded-xl">
-    <h3>AI API</h3>
-    <input id="ai" class="w-full p-2 bg-black mt-2 rounded" placeholder="text">
-    <button onclick="run('ai')" class="mt-2 bg-purple-600 px-4 py-2 rounded">Run</button>
+    <h3 class="text-xl font-bold">AI API</h3>
+    <input id="ai" class="w-full p-2 bg-black mt-2 rounded">
+    <button onclick="run('ai')" class="mt-2 bg-purple-600 px-4 py-2 rounded hover:scale-110 transition">Run</button>
     <button onclick="copyURL('ai')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
-    <pre id="aiRes" class="mt-2 text-sm"></pre>
+    <pre id="aiRes"></pre>
   </div>
 
   <!-- Teach -->
   <div class="glass p-5 rounded-xl">
-    <h3>Teach API</h3>
+    <h3 class="text-xl font-bold">Teach API</h3>
     <input id="teachQ" class="w-full p-2 bg-black mt-2 rounded" placeholder="question">
     <input id="teachA" class="w-full p-2 bg-black mt-2 rounded" placeholder="reply">
-    <button onclick="run('teach')" class="mt-2 bg-pink-600 px-4 py-2 rounded">Run</button>
+    <button onclick="run('teach')" class="mt-2 bg-pink-600 px-4 py-2 rounded hover:scale-110 transition">Run</button>
     <button onclick="copyURL('teach')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
-    <pre id="teachRes" class="mt-2 text-sm"></pre>
+    <pre id="teachRes"></pre>
   </div>
 
   <!-- Prayer -->
   <div class="glass p-5 rounded-xl">
-    <h3>Prayer API</h3>
-    <button onclick="run('prayer')" class="mt-2 bg-green-600 px-4 py-2 rounded">Run</button>
+    <h3 class="text-xl font-bold">Prayer API</h3>
+    <button onclick="run('prayer')" class="mt-2 bg-green-600 px-4 py-2 rounded hover:scale-110 transition">Run</button>
     <button onclick="copyURL('prayer')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
-    <pre id="prayerRes" class="mt-2 text-sm"></pre>
+    <pre id="prayerRes"></pre>
   </div>
 
 </div>
 
-<!-- Folder Button -->
+<!-- Folder -->
 <div class="text-center mt-6">
   <button onclick="toggleAPI(event)" class="bg-yellow-500 px-4 py-2 rounded">
     📁 Open API Folder
   </button>
 </div>
 
-<!-- API Folder -->
-<div id="apiFolder" class="hidden max-w-4xl mx-auto mt-4 glass p-4 text-white space-y-3">
-  <div>🔹 Chat → https://rakib-api.vercel.app/api/simma-chat</div>
-  <div>🔹 AI → https://rakib-api.vercel.app/api/simma-ai</div>
-  <div>🔹 Teach → https://rakib-api.vercel.app/api/simma-teach</div>
-  <div>🔹 Prayer → https://rakib-prayer-time.onrender.com/api/ramadan</div>
+<div id="apiFolder" class="hidden max-w-4xl mx-auto mt-4 glass p-4 space-y-2">
+  <div>🔹 Chat API</div>
+  <div>🔹 AI API</div>
+  <div>🔹 Teach API</div>
+  <div>🔹 Prayer API</div>
 </div>
-
 
 <script>
 function apiURL(type){
@@ -150,7 +174,6 @@ function apiURL(type){
     return `https://rakib-prayer-time.onrender.com/api/ramadan?location=dhaka&apikey=rakib69`;
 }
 
-
 async function run(type){
   const box = document.getElementById(type + 'Res');
   const btn = event.target;
@@ -160,44 +183,55 @@ async function run(type){
   btn.innerText = "Loading...";
 
   try{
-    const url = apiURL(type);
-    const proxy = "/api/proxy?url=" + encodeURIComponent(url);
-
+    const proxy = "/api/proxy?url=" + encodeURIComponent(apiURL(type));
     const res = await fetch(proxy);
 
-    let data;
     const contentType = res.headers.get("content-type") || "";
 
-    if(contentType.includes("application/json")){
-      data = await res.json();
-      box.innerText = JSON.stringify(data, null, 2);
-    } else {
-      data = await res.text();
-      box.innerText = data;
+    if(contentType.includes("json")){
+      const data = await res.json();
+      box.innerText = JSON.stringify(data,null,2);
+    }else{
+      box.innerText = await res.text();
     }
 
-  }catch(e){
-    box.innerText = "❌ Error / Proxy Failed";
+  }catch{
+    box.innerText = "❌ Error";
   }
 
   btn.disabled = false;
   btn.innerText = "Run";
 }
 
-
 function copyURL(type){
-  const url = apiURL(type);
-  navigator.clipboard.writeText(url);
-  alert("✅ Copied!");
+  navigator.clipboard.writeText(apiURL(type));
+  alert("Copied!");
 }
 
-
 function toggleAPI(e){
-  const folder = document.getElementById('apiFolder');
-  folder.classList.toggle('hidden');
+  const f = document.getElementById('apiFolder');
+  f.classList.toggle('hidden');
 
-  e.target.innerText = folder.classList.contains('hidden')
+  e.target.innerText = f.classList.contains('hidden')
     ? "📁 Open API Folder"
     : "📂 Close API Folder";
 }
+
+/* 🌌 PARTICLES */
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 100 },
+    color: { value: "#00ffff" },
+    size: { value: 3 },
+    move: { speed: 2 }
+  },
+  interactivity: {
+    events: {
+      onhover: { enable: true, mode: "repulse" }
+    }
+  }
+});
 </script>
+
+</body>
+           </html>
