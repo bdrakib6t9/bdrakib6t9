@@ -74,49 +74,24 @@ typeEffect();
     <i class="fab fa-instagram"></i>
   </a>
 
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Particles -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
-<style>
-body{
-  background:#0f172a;
-}
-
-/* glass effect */
-.glass{
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  border:1px solid rgba(255,255,255,0.1);
-}
-</style>
-</head>
-
-<body class="text-white">
-
-<!-- 🔥 Background Animation -->
-<div id="particles-js" class="fixed top-0 left-0 w-full h-full -z-10"></div>
-
-
-<!-- UI -->
-<div class="mt-2 bg-blue-600 px-3 py-1 rounded text-sm">
+<div class="max-w-6xl mx-auto p-4 grid md:grid-cols-2 gap-6 text-white">
 
   <!-- Chat -->
   <div class="glass p-5 rounded-xl">
     <h3>Chat API</h3>
     <input id="chat" class="w-full p-2 bg-black mt-2 rounded" placeholder="text">
-    <button onclick="run('chat', event)" class="mt-2 bg-blue-600 px-3 py-1 rounded text-sm">Run</button>
-<button onclick="copyURL('chat')" class="mt-2 bg-gray-600 px-3 py-1 rounded text-sm">Copy URL</button>
+    <button onclick="run('chat')" class="mt-2 bg-blue-600 px-4 py-2 rounded">Run</button>
+    <button onclick="copyURL('chat')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+    <pre id="chatRes" class="mt-2 text-sm"></pre>
   </div>
 
   <!-- AI -->
   <div class="glass p-5 rounded-xl">
     <h3>AI API</h3>
-    <input id="ai" class="w-full p-2 bg-black mt-2 rounded">
-<button onclick="run('ai', event)" class="mt-2 bg-purple-600 px-3 py-1 rounded text-sm">Run</button>
-<button onclick="copyURL('ai')" class="mt-2 bg-gray-600 px-3 py-1 rounded text-sm">Copy URL</button>
+    <input id="ai" class="w-full p-2 bg-black mt-2 rounded" placeholder="text">
+    <button onclick="run('ai')" class="mt-2 bg-purple-600 px-4 py-2 rounded">Run</button>
+    <button onclick="copyURL('ai')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+    <pre id="aiRes" class="mt-2 text-sm"></pre>
   </div>
 
   <!-- Teach -->
@@ -124,32 +99,34 @@ body{
     <h3>Teach API</h3>
     <input id="teachQ" class="w-full p-2 bg-black mt-2 rounded" placeholder="question">
     <input id="teachA" class="w-full p-2 bg-black mt-2 rounded" placeholder="reply">
-<button onclick="run('teach', event)" class="mt-2 bg-pink-600 px-3 py-1 rounded text-sm">Run</button>
-<button onclick="copyURL('teach')" class="mt-2 bg-gray-600 px-3 py-1 rounded text-sm">Copy URL</button>
+    <button onclick="run('teach')" class="mt-2 bg-pink-600 px-4 py-2 rounded">Run</button>
+    <button onclick="copyURL('teach')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+    <pre id="teachRes" class="mt-2 text-sm"></pre>
   </div>
 
   <!-- Prayer -->
   <div class="glass p-5 rounded-xl">
     <h3>Prayer API</h3>
-    <button onclick="run('prayer', event)" class="mt-2 bg-green-600 px-3 py-1 rounded text-sm">Run</button>
-<button onclick="copyURL('prayer')" class="mt-2 bg-gray-600 px-3 py-1 rounded text-sm">Copy URL</button>
+    <button onclick="run('prayer')" class="mt-2 bg-green-600 px-4 py-2 rounded">Run</button>
+    <button onclick="copyURL('prayer')" class="mt-2 bg-gray-600 px-4 py-2 rounded">Copy URL</button>
+    <pre id="prayerRes" class="mt-2 text-sm"></pre>
   </div>
 
 </div>
 
-
-<!-- Folder -->
+<!-- Folder Button -->
 <div class="text-center mt-6">
-  <button onclick="toggleAPI(event)" class="bg-yellow-500 px-3 py-1 rounded text-sm">
-  📁 Open API Folder
+  <button onclick="toggleAPI(event)" class="bg-yellow-500 px-4 py-2 rounded">
+    📁 Open API Folder
   </button>
 </div>
 
-<div id="apiFolder" class="hidden max-w-4xl mx-auto mt-4 glass p-4 space-y-2">
-  <div>🔹 Chat → /simma-chat</div>
-  <div>🔹 AI → /simma-ai</div>
-  <div>🔹 Teach → /simma-teach</div>
-  <div>🔹 Prayer → /ramadan</div>
+<!-- API Folder -->
+<div id="apiFolder" class="hidden max-w-4xl mx-auto mt-4 glass p-4 text-white space-y-3">
+  <div>🔹 Chat → https://rakib-api.vercel.app/api/simma-chat</div>
+  <div>🔹 AI → https://rakib-api.vercel.app/api/simma-ai</div>
+  <div>🔹 Teach → https://rakib-api.vercel.app/api/simma-teach</div>
+  <div>🔹 Prayer → https://rakib-prayer-time.onrender.com/api/ramadan</div>
 </div>
 
 
@@ -174,9 +151,9 @@ function apiURL(type){
 }
 
 
-async function run(type, e){
+async function run(type){
   const box = document.getElementById(type + 'Res');
-  const btn = e.target;
+  const btn = event.target;
 
   box.innerText = "⏳ Loading...";
   btn.disabled = true;
@@ -188,17 +165,18 @@ async function run(type, e){
 
     const res = await fetch(proxy);
 
+    let data;
     const contentType = res.headers.get("content-type") || "";
 
     if(contentType.includes("application/json")){
-      const data = await res.json();
+      data = await res.json();
       box.innerText = JSON.stringify(data, null, 2);
     } else {
-      const text = await res.text();
-      box.innerText = text;
+      data = await res.text();
+      box.innerText = data;
     }
 
-  }catch{
+  }catch(e){
     box.innerText = "❌ Error / Proxy Failed";
   }
 
@@ -222,17 +200,4 @@ function toggleAPI(e){
     ? "📁 Open API Folder"
     : "📂 Close API Folder";
 }
-
-
-/* 🔥 ORIGINAL STYLE PARTICLES (same vibe) */
-particlesJS("particles-js", {
-  particles:{
-    number:{value:80},
-    size:{value:3},
-    move:{speed:2}
-  }
-});
-</script>
-
-</body>
-</html>
+             </script>
